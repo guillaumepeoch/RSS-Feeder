@@ -1,0 +1,14 @@
+.header {
+  background: LightSeaGreen;
+  border-bottom: 1px solid black;
+}
+
+.bars {
+  color:white;
+  padding:10px;
+  cursor:pointer;
+}
+
+.authentification {
+  float:right;
+}
