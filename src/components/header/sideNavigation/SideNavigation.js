@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import Sidebar from 'react-sidebar';
+//import Sidebar from 'react-sidebar';
 
-import styles from './sideNavigation.module.css';
+//import styles from './sideNavigation.module.css';
 
-import SourcesList from '../../source/SourcesList';
+//import SourcesList from '../../source/SourcesList';
 
 class SideNavigation extends Component {
   

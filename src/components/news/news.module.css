@@ -1,0 +1,11 @@
+.container {
+  
+}
+
+.card {
+  border: 1px black solid;
+  background-color: #2E9CCA;
+  margin: 25px 50px;
+  padding: 50px 100px;
+  border-radius: 15px;
+}
