@@ -1,6 +1,7 @@
 import React from 'react';
-
 import { Link } from 'react-router-dom';
+
+import SideNavigation from './sideNavigation/SideNavigation'
 
 import style from './header.module.css'
 
@@ -25,6 +26,7 @@ const Header = function(){
   
   return (
     <header className={style.header}>
+      <SideNavigation />
       {navBar()}
     </header>
   );
