@@ -15,7 +15,7 @@ class News extends Component {
   }
   
   componentDidMount(){
-    axios.get('https://www.npr.org/rss/rss.php?id=1008')
+    axios.get('http://www.20minutes.fr/rss/actu-france.xml')
     .then((response)=>{
       const parseString = require('xml2js').parseString;
       parseString(response.data,(err, result) => {
