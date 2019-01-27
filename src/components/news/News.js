@@ -10,18 +10,7 @@ class News extends Component {
   constructor(props){
     super(props);
     this.state = {
-      news:[
-        {
-            "id": "2",
-            "content_text": "This is a second item.",
-            "url": "https://example.org/second-item"
-        },
-        {
-            "id": "1",
-            "content_html": "<p>Hello, world!</p>",
-            "url": "https://example.org/initial-post"
-        }
-    ]
+      news:[]
     }
   }
   
@@ -41,17 +30,14 @@ class News extends Component {
     });
   }
   
-  jsonify(xml){
-    
-  }
-  
   render(){
     return (
       <div className={styles.container}>
         { this.state.news.map(function(newsItem, index){
           return (
             <div key={index} className={styles.card}>
-              {newsItem.title}
+              <h5>{newsItem.title}</h5>
+              <p>{newsItem.description}</p>
             </div>
           );
         }) }

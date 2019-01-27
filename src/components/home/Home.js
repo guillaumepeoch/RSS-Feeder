@@ -1,10 +1,11 @@
 import React from 'react';
 
 import News from '../news/News';
+import styles from './home.module.css';
 
 const Home = (props) => {
     return (
-      <div>
+      <div className={styles.container}>
         <News
         />
       </div>

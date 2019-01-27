@@ -1,16 +1,23 @@
 import React from 'react';
 
 import './layout.css'
+import styles from './layout.module.css'
 
 import Header from '../../components/header/Header';
-//import Footer from '../../components/footer/Footer';
+import SideMenu from '../../components/side_menu/SideMenu';
 
 const Layout = function(props){
   return (
     <div>
       <Header
       />
-       { props.children }
+      <div>
+        <SideMenu
+        />
+        <div className={styles.main}>
+          { props.children }
+        </div>
+      </div>
     </div>
   );
 }

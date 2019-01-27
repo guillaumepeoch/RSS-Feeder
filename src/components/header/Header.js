@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import SideNavigation from './sideNavigation/SideNavigation'
+// import SideNavigation from './sideNavigation/SideNavigation'
 
 import style from './header.module.css'
 
@@ -10,8 +10,7 @@ const Header = function(){
   const navBar = function(){
     return (
       <div className={style.bars}>
-        News
-        
+        News!
         <div className={style.authentification}>
           <Link to="/SignIn">
             Sign In 
@@ -26,7 +25,6 @@ const Header = function(){
   
   return (
     <header className={style.header}>
-      <SideNavigation />
       {navBar()}
     </header>
   );
