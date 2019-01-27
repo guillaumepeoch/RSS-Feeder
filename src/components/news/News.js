@@ -19,7 +19,6 @@ class News extends Component {
     .then((response)=>{
       const parseString = require('xml2js').parseString;
       parseString(response.data,(err, result) => {
-        console.log(result.rss.channel[0].item);
         this.setState({
           news:result.rss.channel[0].item
         })

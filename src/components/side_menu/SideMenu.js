@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-// import { Link, withRouter } from 'react-router-dom'
+import { Link, withRouter } from 'react-router-dom'
 
 import styles from './sidemenu.module.css';
 
@@ -7,7 +7,18 @@ class SideMenu  extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      sources:['Washington Post', 'NY Times', 'NPR']
+      sources:[{
+        id:1,
+        name:'Washington Post'
+      },
+      {
+        id:2,
+        name:'NY Times'
+      },
+      {
+        id:3,
+        name:'NPR'
+      }]
     };
   }
   
@@ -16,7 +27,9 @@ class SideMenu  extends Component {
       <ul className={styles.menu}>
         { this.state.sources.map(function(link, index){ 
           return (
-            <li className={styles.source}>{link}</li>
+            <li key={index}>
+              <Link to={`/News/${link.id}`} className={styles.source}>{link.name}</Link>
+            </li>
           );
          }) }
       </ul>
@@ -24,4 +37,4 @@ class SideMenu  extends Component {
   }
 }
 
-export default SideMenu;
+export default withRouter(SideMenu);

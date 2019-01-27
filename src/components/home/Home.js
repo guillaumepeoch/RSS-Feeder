@@ -5,7 +5,7 @@ import styles from './home.module.css';
 
 const Home = (props) => {
     return (
-      <div className={styles.container}>
+      <div>
         <News
         />
       </div>
