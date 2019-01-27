@@ -9,15 +9,15 @@ class SideMenu  extends Component {
     this.state = {
       sources:[{
         id:1,
-        name:'Washington Post'
-      },
-      {
-        id:2,
         name:'NY Times'
       },
       {
-        id:3,
+        id:2,
         name:'NPR'
+      },
+      {
+        id:3,
+        name:'20 Minutes'
       }]
     };
   }

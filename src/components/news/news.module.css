@@ -1,9 +1,9 @@
 .card {
   border: 1px black solid;
   background-color: #2E9CCA;
-  margin: 15px 25px;
+  margin: 15px 10px;
   padding: 10px 10px;
-  border-radius: 15px;
+  border-radius: 10px;
 }
 
 .container {
