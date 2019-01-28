@@ -3,21 +3,8 @@ import ReactDOM from 'react-dom';
 import * as serviceWorker from './serviceWorker';
 import { BrowserRouter } from 'react-router-dom';
 import Routes from './Routes';
-import axios from 'axios';
 
 const App = (props) => {
-  
-    console.log('Yoyo');
-  
-    axios.get('test').
-    then(function(res){
-      console.log(res)
-    }).
-    catch(function(err){
-      console.log(err)
-    });
-  
-  
     return (
       <BrowserRouter>
         <Routes />

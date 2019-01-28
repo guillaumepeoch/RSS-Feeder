@@ -1,26 +1,31 @@
 import React, { Component } from 'react';
 import { Link, withRouter } from 'react-router-dom'
 
+import axios from 'axios';
+
 import styles from './sidemenu.module.css';
 
 class SideMenu  extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      sources:[{
-        id:1,
-        name:'NY Times'
-      },
-      {
-        id:2,
-        name:'NPR'
-      },
-      {
-        id:3,
-        name:'20 Minutes'
-      }]
+      sources:[]
     };
   }
+  
+  
+  componentDidMount(){
+    axios.get('sources')
+    .then((response)=>{
+      this.setState({
+        sources:response.data
+      });
+    })
+    .catch(function(error){
+      console.log(error);
+    });
+  }
+  
   
   render(){
     return(
