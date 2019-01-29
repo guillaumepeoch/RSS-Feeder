@@ -23,7 +23,6 @@ class News extends Component {
         axios.get(url)
         .then((response)=>{
           parseString(response.data,(err, result) => {
-            console.log(result.rss.channel[0].item[0]);
             this.setState({
               news:result.rss.channel[0].item
             })
@@ -37,7 +36,7 @@ class News extends Component {
   }
   
   componentDidMount(){
-    axios.get('http://www.20minutes.fr/rss/actu-france.xml')
+    axios.get('http://feeds.nytimes.com/nyt/rss/HomePage')
     .then((response)=>{
       parseString(response.data,(err, result) => {
         this.setState({
@@ -73,6 +72,7 @@ class News extends Component {
   }
   
   render(){
+    console.log(this.state.news.length);
     return (
       <div className={styles.container}>
         { this.state.news.map(function(newsItem, index){

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 
-import Home from './components/home/Home';
+// import Home from './components/home/Home';
 import News from './components/news/News';
 
 import Layout from './hoc/layout/Layout';
