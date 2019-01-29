@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 
 import axios from 'axios';
-
-//import NewsItem from './NewsItem';
+import { parseString } from 'xml2js';
 
 import styles from './news.module.css';
 
@@ -19,11 +18,8 @@ class News extends Component {
       const id = this.props.match.params.id
       if(oldProps.match.params.id !== id) {
         const url = this.getUrl(id);
-        console.log(`id: ${id}`)
-        console.log(`url: ${url}`);
         axios.get(url)
         .then((response)=>{
-          const parseString = require('xml2js').parseString;
           parseString(response.data,(err, result) => {
             this.setState({
               news:result.rss.channel[0].item
@@ -40,7 +36,6 @@ class News extends Component {
   componentDidMount(){
     axios.get('http://www.20minutes.fr/rss/actu-france.xml')
     .then((response)=>{
-      const parseString = require('xml2js').parseString;
       parseString(response.data,(err, result) => {
         this.setState({
           news:result.rss.channel[0].item

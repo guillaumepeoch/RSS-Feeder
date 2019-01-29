@@ -10,7 +10,7 @@ const Routes = (props) => {
     return (
       <Layout>
         <Switch>
-          <Route path='/' exact component={Home} />
+          <Route path='/' exact component={News} />
           <Route {...props} path='/News/:id' exact component={News} />
         </Switch>
       </Layout>

@@ -15,7 +15,7 @@ class SideMenu  extends Component {
   
   
   componentDidMount(){
-    axios.get('sources')
+    axios.get('/sources')
     .then((response)=>{
       this.setState({
         sources:response.data
