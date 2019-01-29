@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+import Article from '../article/Article';
+
 import axios from 'axios';
 import { parseString } from 'xml2js';
 
@@ -21,6 +23,7 @@ class News extends Component {
         axios.get(url)
         .then((response)=>{
           parseString(response.data,(err, result) => {
+            console.log(result.rss.channel[0].item[0]);
             this.setState({
               news:result.rss.channel[0].item
             })
@@ -74,10 +77,7 @@ class News extends Component {
       <div className={styles.container}>
         { this.state.news.map(function(newsItem, index){
           return (
-            <div key={index} className={styles.card}>
-              <h5>{newsItem.title}</h5>
-              <p>{newsItem.description}</p>
-            </div>
+            <Article key={index} newsItem={newsItem}/>
           );
         }) }
       </div>
