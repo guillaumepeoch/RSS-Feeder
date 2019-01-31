@@ -23,6 +23,7 @@ class News extends Component {
         axios.get(url)
         .then((response)=>{
           parseString(response.data,(err, result) => {
+            this.setState({news:[]});
             this.setState({
               news:result.rss.channel[0].item
             })

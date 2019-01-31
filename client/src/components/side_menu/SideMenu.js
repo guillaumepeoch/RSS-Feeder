@@ -29,15 +29,19 @@ class SideMenu  extends Component {
   
   render(){
     return(
-      <ul className={styles.menu}>
+      <div className={styles.menu}>
         { this.state.sources.map(function(link, index){ 
           return (
-            <li key={index}>
-              <Link to={`/News/${link.id}`} className={styles.source}>{link.name}</Link>
-            </li>
+            <div key={index} className={styles.source}>
+              <Link style={{ textDecoration: 'none', color: 'white' }}
+                to={`/News/${link.id}`} 
+              >
+                {link.name}
+              </Link>
+            </div>
           );
          }) }
-      </ul>
+      </div>
     );
   }
 }

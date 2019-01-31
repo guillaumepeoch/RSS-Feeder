@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-// import axios from 'axios';
+import axios from 'axios';
 //import { parseString } from 'xml2js';
 
 import styles from './article.module.css';
@@ -17,6 +17,18 @@ class Article extends Component {
       html:''
     };
   }
+
+  save(){
+    axios.post('/article', {
+      url_to_save:this.state.url
+    }).
+    then(function(res){
+      console.llog(res)
+    }).
+    catch(function(err){
+      console.log(err);
+    });
+  }
   
   loadArticle = () => {
     this.setState({
@@ -27,8 +39,14 @@ class Article extends Component {
   render(){
     if (this.state.display){
       return(
-        <iframe src={this.state.url} name="targetframe" scrolling="yes" frameborder="1" className={styles.browser}>
-        </iframe>
+        <div>
+          <iframe src={this.state.url} name="targetframe" scrolling="yes" frameborder="1" className={styles.browser}>
+          </iframe>
+          <div 
+            className={styles.savebutton}
+            onClick={()=>this.save()}  
+          >Love</div>
+        </div>
       );
     } else {
       return(
@@ -36,8 +54,14 @@ class Article extends Component {
           className={styles.small} 
           onClick={()=>this.loadArticle()}
         >
-          <h5>{this.state.title}</h5>
-          <p>{this.state.description}</p>
+          <div onClick={()=>this.loadArticle()}>
+            <h5>{this.state.title}</h5>
+            <p>{this.state.description}</p>
+          </div>
+          <div 
+            className={styles.savebutton}
+            onClick={()=>this.save()}  
+          >Love</div>
         </div>
       );
     }

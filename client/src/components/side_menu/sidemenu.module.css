@@ -1,6 +1,6 @@
 .menu {
   height: 100%; /* Full-height: remove this if you want "auto" height */
-  width: 25%; /* Set the width of the sidebar */
+  width: 240px; /* Set the width of the sidebar */
   position: fixed; /* Fixed Sidebar (stay in place on scroll) */
   z-index: 50; /* Stay on top */
   top: 0; /* Stay at the top */
@@ -12,4 +12,7 @@
 
 .source {
   cursor:pointer;
+  border-bottom: 1px solid black;
+  padding: 5px 10px;
+  text-decoration: none;
 }

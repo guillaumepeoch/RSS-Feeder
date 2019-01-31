@@ -8,9 +8,21 @@
 
 .browser {
   border: 1px black solid;
-  width: 97%;
   margin: 15px 10px;
+  width:97%;
   padding: 10px 10px;
   border-radius: 10px;
   height: 500px;
+}
+
+.savebutton {
+  float: center;
+  border: 1px solid red;
+  background-color: pink;
+  text-align: center;
+  color: red;
+  padding:15px 20px;
+  border-radius: 10px;
+  margin: 0px 5px;
+  z-index: 100;
 }
