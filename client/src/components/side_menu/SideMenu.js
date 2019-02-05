@@ -13,8 +13,18 @@ class SideMenu  extends Component {
     };
   }
   
-  
   componentDidMount(){
+    // axios.all([this.getSources(), this.getArticles()])
+    // .then(axios.spread((sources, articles) => {
+
+    //   this.setState({
+    //     sources: sources.data,
+    //     articles:
+    //   });
+    //   console.log(sources)
+    //   console.log(articles)
+    //   // Both requests are now complete
+    // }));
     axios.get('/sources')
     .then((response)=>{
       this.setState({
@@ -41,6 +51,13 @@ class SideMenu  extends Component {
             </div>
           );
          }) }
+         <div className={styles.savedArticles}>
+          <Link style={{ textDecoration: 'none', color: 'white' }}
+            to={'/Saved/Articles'}
+          >
+            Saved Articles
+          </Link>
+         </div>
       </div>
     );
   }

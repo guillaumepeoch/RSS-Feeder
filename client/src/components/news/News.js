@@ -11,7 +11,8 @@ class News extends Component {
   constructor(props){
     super(props);
     this.state = {
-      news:[]
+      news:[],
+      savedArticles: props.match.path === '/Saved/Articles'? true : false
     }
   }
   
@@ -37,17 +38,31 @@ class News extends Component {
   }
   
   componentDidMount(){
-    axios.get('http://feeds.nytimes.com/nyt/rss/HomePage')
-    .then((response)=>{
-      parseString(response.data,(err, result) => {
+    if(this.state.savedArticles){
+      axios.get('/articles')
+      .then((response)=>{
+        console.log(response.data)
+        console.log(this.state)
         this.setState({
-          news:result.rss.channel[0].item
-        })
+          news:response.data
+        });
+      })
+      .catch(function(error){
+        console.log(error);
       });
-    })
-    .catch(function(error){
-      console.log(error);
-    });
+    } else {
+      axios.get('http://feeds.nytimes.com/nyt/rss/HomePage')
+      .then((response)=>{
+        parseString(response.data,(err, result) => {
+          this.setState({
+            news:result.rss.channel[0].item
+          })
+        });
+      })
+      .catch(function(error){
+        console.log(error);
+      });
+    }
   }
   
   getUrl(id){
@@ -73,7 +88,6 @@ class News extends Component {
   }
   
   render(){
-    console.log(this.state.news.length);
     return (
       <div className={styles.container}>
         { this.state.news.map(function(newsItem, index){

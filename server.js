@@ -40,8 +40,6 @@ app.get('/sources',function(req,res){
 });
 
 app.post('/article', function(req, res){
-  console.log("url to save -->  "+req.body.url_to_save)
-
   // Use connect method to connect to the server
   MongoClient.connect(url, function(err, client) {
     assert.equal(null, err);
@@ -50,14 +48,13 @@ app.post('/article', function(req, res){
     const db = client.db(dbName);
 
     db.collection('test').insertOne({
-      url_to_save:req.body.url_to_save,
+      ...req.body,
       type:'Article'
     },(err, res)=>{
         if(err){
           console.log(`Cannot insert:${err}`)
         }
         console.log(res.ops)
-        console.log('res.ops')
     });
   
     client.close();
@@ -65,6 +62,27 @@ app.post('/article', function(req, res){
   
   res.end();
 })
+
+app.get('/articles', function(req, res){
+  // Use connect method to connect to the server
+  MongoClient.connect(url, function(err, client) {
+    assert.equal(null, err);
+    console.log("Connected successfully to server");
+  
+    const db = client.db(dbName);
+
+    db.collection('test').find({
+      type:'Article'
+    }).toArray((err, docs)=>{
+        if(err){
+          console.log(`Cannot insert:${err}`)
+        }
+        console.log(docs)
+        res.json(docs);
+        client.close();
+    });
+  });
+});
 
 const port = process.env.PORT || 3001;
 

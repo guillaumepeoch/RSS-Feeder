@@ -1,32 +1,33 @@
 import React, { Component } from 'react';
 
 import axios from 'axios';
-//import { parseString } from 'xml2js';
 
 import styles from './article.module.css';
 
 class Article extends Component {
   constructor(props){
     super(props);
+    console.log(props.newsItem)
     this.state = {
       display:false,
-      description:props.newsItem.description[0],
-      url:props.newsItem.link[0],
-      pubdate:props.newsItem.pubDate[0],
-      title:props.newsItem.title[0],
+      description:props.newsItem.description || props.newsItem.description[0],
+      url:props.newsItem.url || props.newsItem.link[0],
+      pubdate:props.newsItem.pubdate || props.newsItem.pubDate[0],
+      title:props.newsItem.title || props.newsItem.title[0],
       html:''
     };
   }
 
   save(){
-    axios.post('/article', {
-      url_to_save:this.state.url
-    }).
+    let objectToSave = {...this.state};
+    delete objectToSave.html;
+    delete objectToSave.display;
+    axios.post('/article', objectToSave).
     then(function(res){
-      console.llog(res)
+      console.log(res)
     }).
     catch(function(err){
-      console.log(err);
+      console.error(err);
     });
   }
   
