@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
 import Article from '../article/Article';
+import SavedArticle from '../article/SavedArticle';
 
 import axios from 'axios';
 import { parseString } from 'xml2js';
@@ -12,7 +13,7 @@ class News extends Component {
     super(props);
     this.state = {
       news:[],
-      savedArticles: props.match.path === '/Saved/Articles'? true : false
+      savedArticles: props.match.path === '/Saved/Articles' ? true : false
     }
   }
   
@@ -20,52 +21,55 @@ class News extends Component {
     if(this.props.match){
       const id = this.props.match.params.id
       if(oldProps.match.params.id !== id) {
-        const url = this.getUrl(id);
-        axios.get(url)
-        .then((response)=>{
-          parseString(response.data,(err, result) => {
-            this.setState({news:[]});
-            this.setState({
-              news:result.rss.channel[0].item
-            })
-          });
-        })
-        .catch(function(error){
-          console.log(error);
-        });
+        if (this.props.match.path === '/Saved/Articles'){
+          this.getSavedArticles();
+        } else {
+          const url = this.getUrls(id);
+          this.getArticlesFrom(url);
+        }
       }
     }
   }
   
   componentDidMount(){
     if(this.state.savedArticles){
-      axios.get('/articles')
-      .then((response)=>{
-        console.log(response.data)
-        console.log(this.state)
-        this.setState({
-          news:response.data
-        });
-      })
-      .catch(function(error){
-        console.log(error);
-      });
+      this.getSavedArticles();
     } else {
-      axios.get('http://feeds.nytimes.com/nyt/rss/HomePage')
+      this.getArticlesFrom('http://feeds.nytimes.com/nyt/rss/HomePage');
+    }
+  }
+
+  getArticlesFrom(url){
+    axios.get(url)
       .then((response)=>{
         parseString(response.data,(err, result) => {
+          this.setState({news:[]});
           this.setState({
+            savedArticles:false,
             news:result.rss.channel[0].item
           })
         });
       })
-      .catch(function(error){
-        console.log(error);
+      .catch(function(err){
+        console.error(err);
       });
-    }
+  }
+
+  getSavedArticles(){
+    axios.get('/articles')
+    .then((response)=>{
+      this.setState({news:[]});
+      this.setState({
+        savedArticles:true,
+        news:response.data
+      });
+    })
+    .catch(function(err){
+      console.error(err);
+    });
   }
   
-  getUrl(id){
+  getUrls(id){
     const sources = [{
       id:1,
       name:'NY Times',
@@ -90,10 +94,16 @@ class News extends Component {
   render(){
     return (
       <div className={styles.container}>
-        { this.state.news.map(function(newsItem, index){
-          return (
-            <Article key={index} newsItem={newsItem}/>
-          );
+        { this.state.news.map((newsItem, index)=>{
+          if (this.state.savedArticles){
+            return (
+              <SavedArticle key={index} newsItem={newsItem}/>
+            );
+          } else {
+            return (
+              <Article key={index} newsItem={newsItem}/>
+            );
+          }
         }) }
       </div>
     );

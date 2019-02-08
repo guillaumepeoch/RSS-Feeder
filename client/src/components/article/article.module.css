@@ -26,3 +26,15 @@
   margin: 0px 5px;
   z-index: 100;
 }
+
+.deletebutton {
+  float: center;
+  border: 1px solid red;
+  background-color: red;
+  text-align: center;
+  color: black;
+  padding:15px 20px;
+  border-radius: 10px;
+  margin: 0px 5px;
+  z-index: 100;
+}

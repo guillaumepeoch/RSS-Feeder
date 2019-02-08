@@ -2,26 +2,31 @@
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
-const { MongoClient } = require('mongodb');
-const assert = require('assert');
 
-const url = 'mongodb://localhost:27017';
+const url = 'mongodb://localhost:27017/LocalMDB';
+
+const mongoose = require('mongoose');
+mongoose.Promise = global.Promise;
+mongoose.connect(url, { useNewUrlParser: true });
+
+const articleSchema = mongoose.Schema({
+  description:String,
+  url:{
+    type: String,
+    unique: true
+  },
+  pubDate:String,
+  title:String,
+  type:String
+});
+const Article = mongoose.model('Article',articleSchema);
 
 app.use(bodyParser.json()); // support json encoded bodies
 app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 
-const dbName = 'LocalMDB';
-// Use connect method to connect to the server
-// MongoClient.connect(url, function(err, client) {
-//   assert.equal(null, err);
-//   console.log("Connected successfully to server");
- 
-//   const db = client.db(dbName);
- 
-//   client.close();
-// });
 
 app.get('/sources',function(req,res){
+  // TODO: Save sources
   res.json([{
     id:1,
     name:'NY Times',
@@ -40,49 +45,41 @@ app.get('/sources',function(req,res){
 });
 
 app.post('/article', function(req, res){
-  // Use connect method to connect to the server
-  MongoClient.connect(url, function(err, client) {
-    assert.equal(null, err);
-    console.log("Connected successfully to server");
-  
-    const db = client.db(dbName);
-
-    db.collection('test').insertOne({
-      ...req.body,
-      type:'Article'
-    },(err, res)=>{
-        if(err){
-          console.log(`Cannot insert:${err}`)
-        }
-        console.log(res.ops)
-    });
-  
-    client.close();
+  const addArticle = new Article({
+    ...req.body,
+    type:'Article'
   });
-  
-  res.end();
-})
+
+  addArticle.save((err, doc)=>{
+    if(err) return console.log(err);
+    console.log('--------------------');
+    console.log(doc.title + ' saved!');
+    res.end();
+  });
+});
 
 app.get('/articles', function(req, res){
   // Use connect method to connect to the server
-  MongoClient.connect(url, function(err, client) {
-    assert.equal(null, err);
-    console.log("Connected successfully to server");
-  
-    const db = client.db(dbName);
-
-    db.collection('test').find({
-      type:'Article'
-    }).toArray((err, docs)=>{
-        if(err){
-          console.log(`Cannot insert:${err}`)
-        }
-        console.log(docs)
-        res.json(docs);
-        client.close();
-    });
-  });
+  Article.find({type:'Article'},(err, doc)=>{
+    if(err) return console.log(err);
+    console.log('--------------------');
+    console.log('Getting all saved articles');
+    res.json(doc);
+  })
 });
+
+app.delete('/article', function(req, res){
+  Article.findByIdAndDelete(req.body.id, (err, doc)=>{
+    if(err){
+      res.end(err.errmsg);
+      return console.log(err);
+    }
+    console.log('--------------------');
+    console.log(doc.title + 'Deleted!');
+    res.end();
+  });
+
+}) 
 
 const port = process.env.PORT || 3001;
 

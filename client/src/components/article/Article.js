@@ -7,14 +7,14 @@ import styles from './article.module.css';
 class Article extends Component {
   constructor(props){
     super(props);
-    console.log(props.newsItem)
     this.state = {
       display:false,
-      description:props.newsItem.description || props.newsItem.description[0],
-      url:props.newsItem.url || props.newsItem.link[0],
-      pubdate:props.newsItem.pubdate || props.newsItem.pubDate[0],
-      title:props.newsItem.title || props.newsItem.title[0],
-      html:''
+      description:props.newsItem.description[0],
+      url:props.newsItem.link[0],
+      pubdate:props.newsItem.pubDate[0],
+      title:props.newsItem.title[0],
+      html:'',
+      lovable: true
     };
   }
 
@@ -23,10 +23,11 @@ class Article extends Component {
     delete objectToSave.html;
     delete objectToSave.display;
     axios.post('/article', objectToSave).
-    then(function(res){
-      console.log(res)
+    then((res)=>{
+      this.setState({lovable:false})
     }).
     catch(function(err){
+      console.log('Article Not Saved!');
       console.error(err);
     });
   }
@@ -53,16 +54,17 @@ class Article extends Component {
       return(
         <div 
           className={styles.small} 
-          onClick={()=>this.loadArticle()}
         >
           <div onClick={()=>this.loadArticle()}>
             <h5>{this.state.title}</h5>
             <p>{this.state.description}</p>
           </div>
-          <div 
-            className={styles.savebutton}
-            onClick={()=>this.save()}  
-          >Love</div>
+          { this.state.lovable ? (
+            <div 
+              className={styles.savebutton}
+              onClick={()=>this.save()}  
+            >Love</div>
+          ) : null }
         </div>
       );
     }
