@@ -16,7 +16,8 @@ class News extends Component {
     super(props);
     this.state = {
       news:[],
-      savedArticles: props.match.path === '/Saved/Articles' ? true : false
+      savedArticles: true
+      // savedArticles: props.match.path === '/Saved/Articles' ? true : false
     }
   }
 
@@ -29,22 +30,24 @@ class News extends Component {
       const id = this.props.match.params.id
       if(oldProps.match.params.id !== id) {
         if (this.props.match.path === '/Saved/Articles'){
-          this.getSavedArticles();
+          // this.getSavedArticles();
+          this.props.getNews()
         } else {
-          const url = this.getUrls(id);
-          this.getArticlesFrom(url);
+          // const url = this.getUrls(id);
+          // this.getArticlesFrom(url);
+          this.props.getNews()
         }
       }
     }
   }
   
-  componentDidMount(){
-    if(this.state.savedArticles){
-      this.getSavedArticles();
-    } else {
-      this.getArticlesFrom('http://feeds.nytimes.com/nyt/rss/HomePage');
-    }
-  }
+  // componentDidMount(){
+  //   if(this.state.savedArticles){
+  //     this.getSavedArticles();
+  //   } else {
+  //     this.getArticlesFrom('http://feeds.nytimes.com/nyt/rss/HomePage');
+  //   }
+  // }
 
   getArticlesFrom(url){
     axios.get(url)
@@ -99,22 +102,27 @@ class News extends Component {
   }
   
   render(){
-    console.log(this.props);
-    return (
-      <div className={styles.container}>
-        { this.state.news.map((newsItem, index)=>{
-          if (this.state.savedArticles){
-            return (
-              <SavedArticle key={index} newsItem={newsItem}/>
-            );
-          } else {
-            return (
-              <Article key={index} newsItem={newsItem}/>
-            );
-          }
-        }) }
-      </div>
-    );
+    if(this.props.data.news){
+      return (
+        <div className={styles.container}>
+          { this.props.data.news.map((newsItem, index)=>{
+            if (this.state.savedArticles){
+              return (
+                <SavedArticle key={index} newsItem={newsItem}/>
+              );
+            } else {
+              return (
+                <Article key={index} newsItem={newsItem}/>
+              );
+            }
+          }) }
+        </div>
+      );
+    } else {
+      return (
+        <div>Yoyo</div>
+      );
+    }
   }
 }
 
