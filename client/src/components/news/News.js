@@ -6,6 +6,9 @@ import SavedArticle from '../article/SavedArticle';
 import axios from 'axios';
 import { parseString } from 'xml2js';
 
+import { connect } from 'react-redux';
+import { newsList } from '../../actions';
+
 import styles from './news.module.css';
 
 class News extends Component {
@@ -15,6 +18,10 @@ class News extends Component {
       news:[],
       savedArticles: props.match.path === '/Saved/Articles' ? true : false
     }
+  }
+
+  componentWillMount(){
+    this.props.getNews()
   }
   
   componentDidUpdate(oldProps) {
@@ -92,6 +99,7 @@ class News extends Component {
   }
   
   render(){
+    console.log(this.props);
     return (
       <div className={styles.container}>
         { this.state.news.map((newsItem, index)=>{
@@ -110,4 +118,18 @@ class News extends Component {
   }
 }
 
-export default News;
+const mapStateToProps = (state) => {
+  return {
+    data: state.news
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    getNews:()=>{
+      dispatch(newsList())
+    }
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(News);

@@ -1,13 +1,22 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+
 import * as serviceWorker from './serviceWorker';
 import { BrowserRouter } from 'react-router-dom';
 import Routes from './Routes';
 
+import { Provider } from 'react-redux';
+import { createStore, applyMiddleware } from 'redux'; 
+import reducers from './reducers'
+
+const createStoreWithMiddleware = applyMiddleware()(createStore)
+
 const App = (props) => {
     return (
       <BrowserRouter>
-        <Routes />
+        <Provider store={createStoreWithMiddleware(reducers)}>
+          <Routes />
+        </Provider>
       </BrowserRouter>
     );
 }
