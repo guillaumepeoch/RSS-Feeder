@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 
 import Article from '../article/Article';
-import SavedArticle from '../article/SavedArticle';
 
 import axios from 'axios';
 import { parseString } from 'xml2js';
@@ -19,30 +18,36 @@ class News extends Component {
     }
   }
 
-  // componentWillMount(){
+  componentWillMount(){
     // console.log('componentWillMount');
     // if(this.state.savedArticles){
     //   this.props.getNews();
     // } else {
     //   this.getArticlesFrom('http://feeds.nytimes.com/nyt/rss/HomePage');
     // }
-  // }
+  }
   
   componentDidUpdate(oldProps) {
     if(this.props.match){
       const id = this.props.match.params.id
       if(oldProps.match.params.id !== id) {
-        const url = this.getUrls(id)
-        this.props.getNews(url);
+        if (this.props.match.path === '/Saved/Articles'){
+          this.props.getNews();
+        } else {
+          const url = this.getUrls(id);
+          this.props.getSavedNews(url);
+        }
       }
     }
   }
   
   componentDidMount(){
     console.log('componentDidMount')
-    const id = this.props.match.params.id
-    const url = this.getUrls(id)
-    this.props.getNews(url);
+    if(this.state.savedArticles){
+      this.props.getSavedNews('http://feeds.nytimes.com/nyt/rss/HomePage');
+    } else {
+      this.props.getNews();
+    }
   }
 
   getArticlesFrom(url){
@@ -102,18 +107,26 @@ class News extends Component {
   }
   
   render(){
-    console.log(this.props.data.news)
     if(this.props.data.news){
       return (
         <div className={styles.container}>
-          { this.props.data.news.map((newsItem, index)=><Article key={index} newsItem={newsItem}/>) }
+          { this.props.data.news.map((newsItem, index)=>{
+            <Article key={index} newsItem={newsItem}/>
+            // if (this.state.savedArticles){
+            //   return (
+            //     <SavedArticle key={index} newsItem={newsItem}/>
+            //   );
+            // } else {
+            //   return (
+            //     <Article key={index} newsItem={newsItem}/>
+            //   );
+            // }
+          }) }
         </div>
       );
     } else {
       return (
-        <div className={styles.container}>
-          Loading Bitches!!!!
-        </div>
+        <div>Yoyo</div>
       );
     }
   }
@@ -127,8 +140,11 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getNews:(url)=>{
-      dispatch(newsList(url))
+    getNews:()=>{
+      dispatch(newsList())
+    },
+    getSavedNews:()=>{
+      dispatch(savedNewsList())
     }
   }
 }

@@ -1,18 +1,31 @@
-// import { parseString } from 'xml2js';
-// import axios from 'axios';
+import { parseString } from 'xml2js';
+import axios from 'axios';
 
-export function newsList(){
-    console.log('newsList from actions called!')
+export function savedNewsList(news){
+
+    const newsRequest = axios.get('/articles').then((response)=>{
+        return response.data;
+    })
+    .catch(function(err){
+      console.error(err);
+    });
+
     return {
         type:'NEWS',
-        payload:[
-            {
-                "_id" : "5c5d1835eaaefaaddc73b181",
-                "description" : "Soupçonnée d’être à l’origine des enregistrements clandestins d'Alexandre Benalla et de Vincent Crase, la commissaire divisionnaire a démissionné ce jeudi «pour éviter toute polé",
-                "url" : "https://www.20minutes.fr/politique/2446375-20190207-affaire-benalla-cheffe-securite-premier-ministre-demissionne#xtor=RSS-149",
-                "title" : "Monseogneur Peoc'h",
-                "type" : "Article"
-            }
-        ]
+        payload:newsRequest
     }
+}
+
+export const newsList = (url) => dispatch => {
+    const newsRequest = axios.get(url).then((response)=>{
+        parseString(response.data,(err, result) => {
+            dispatch({
+                type:'NEWS',
+                payload:result.rss.channel[0].item
+            })
+        });
+    })
+    .catch(function(err){
+      console.error(err);
+    });
 }

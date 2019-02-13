@@ -9,10 +9,10 @@ class Article extends Component {
     super(props);
     this.state = {
       display:false,
-      description:props.newsItem.description[0],
-      url:props.newsItem.link[0],
-      pubdate:props.newsItem.pubDate[0],
-      title:props.newsItem.title[0],
+      description:props.newsItem.description[0] || props.newsItem.description,
+      url:props.newsItem.link[0] || props.newsItem.url,
+      pubdate:props.newsItem.pubDate[0] || props.newsItem.pubdate,
+      title:props.newsItem.title[0] || props.newsItem.title,
       html:'',
       lovable: true
     };
