@@ -30,8 +30,6 @@ const save = function(props){
     delete objectToSave.display;
     objectToSave.url = objectToSave.link;
     delete objectToSave.link;
-
-    console.log(objectToSave);
     axios.post('/article', objectToSave)
     .then((res)=>{
       alert('Saved!!')
