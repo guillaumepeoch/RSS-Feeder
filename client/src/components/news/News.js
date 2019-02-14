@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
 
 import Article from '../article/Article';
-import SavedArticle from '../article/SavedArticle';
 
 import axios from 'axios';
 import { parseString } from 'xml2js';
 
 import { connect } from 'react-redux';
-import { newsList, savedNewsList } from '../../actions';
+import { newsList } from '../../actions';
 
 import styles from './news.module.css';
 
@@ -39,7 +38,6 @@ class News extends Component {
   }
   
   componentDidMount(){
-    console.log('componentDidMount')
     const id = this.props.match.params.id
     const url = this.getUrls(id)
     this.props.getNews(url);
@@ -96,17 +94,18 @@ class News extends Component {
       url:'http://www.20minutes.fr/rss/actu-france.xml'
     }]
     const o = sources.filter(function(source){
-      return source.id == id
+      return source.id === parseInt(id,10)
     });
     return o[0].url;
   }
   
   render(){
-    console.log(this.props.data.news)
     if(this.props.data.news){
       return (
         <div className={styles.container}>
-          { this.props.data.news.map((newsItem, index)=><Article key={index} newsItem={newsItem}/>) }
+          { this.props.data.news.map((newsItem, index)=>{
+            return <Article key={index} newsItem={newsItem}/>
+          }) }
         </div>
       );
     } else {

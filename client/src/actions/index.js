@@ -17,15 +17,31 @@ export function savedNewsList(news){
 }
 
 export const newsList = (url) => dispatch => {
-    const newsRequest = axios.get(url).then((response)=>{
+    axios.get(url).then((response)=>{
         parseString(response.data,(err, result) => {
+            const niceNews = unArrayNews(result.rss.channel[0].item);
             dispatch({
                 type:'NEWS',
-                payload:result.rss.channel[0].item
+                payload:niceNews
             })
         });
     })
     .catch(function(err){
       console.error(err);
     });
+}
+
+// Not sure we really need this...
+const unArrayNews = function(newsArr){
+    newsArr.forEach(function(newsObj){
+        for (let property in newsObj) {
+            if (newsObj.hasOwnProperty(property)) {
+                if (Array.isArray(newsObj[property])){
+                    const tmp = newsObj[property][0]
+                    newsObj[property] = tmp
+                }
+            }
+        }
+    });
+    return newsArr;
 }

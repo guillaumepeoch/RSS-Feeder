@@ -26,8 +26,8 @@ class SavedArticle extends Component {
     }
 
     delete(){
-        axios.delete('/article', { data: { id: this.state.id } }).
-        then((res)=>{
+        axios.delete('/article', { data: { id: this.state.id } })
+        .then((res)=>{
             this.setState({
                 delete:true
             });
