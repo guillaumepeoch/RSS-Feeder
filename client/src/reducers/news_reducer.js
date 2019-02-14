@@ -5,6 +5,11 @@ export default function(state = {}, action){
                 ...state, 
                 news: action.payload
             }
+        case 'SAVED_NEWS':
+            return {
+                ...state,
+                news: action.payload
+            }
         default:
             return state;
     }

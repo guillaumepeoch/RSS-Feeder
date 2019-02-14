@@ -1,8 +1,7 @@
 import { parseString } from 'xml2js';
 import axios from 'axios';
 
-export function savedNewsList(news){
-
+export function savedNewsList(){
     const newsRequest = axios.get('/articles').then((response)=>{
         return response.data;
     })
@@ -11,7 +10,7 @@ export function savedNewsList(news){
     });
 
     return {
-        type:'NEWS',
+        type:'SAVED_NEWS',
         payload:newsRequest
     }
 }
